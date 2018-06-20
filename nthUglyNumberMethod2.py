@@ -20,19 +20,14 @@ class Solution:
 
     def nthUglyNumber(self, n):
         # write your code here
+        index_reg = [0] * 3
         ugly_nums = [1]
-        index = 1
-        dict_pow = [2, 3, 5]
-        while index < n:
-            candicated_list = []
-            for ugly_num in ugly_nums[::-1]:
-                flag = True
-                temp =[ugly_num*power for power in dict_pow if ugly_num*power>ugly_nums[-1]]
-                if len(temp)==0:
-                    break
-                candicated_list.append(min(temp))
-            index += 1
-            ugly_nums.append(min(candicated_list))
+        while len(ugly_nums) < n:
+            temp = {ugly_nums[index_reg[key]] * value: key for key, value in {0: 2, 1: 3, 2: 5}.items()}
+            new_num = min(temp)
+            if new_num>ugly_nums[-1]:
+                ugly_nums.append(new_num)
+            index_reg[temp[new_num]] += 1
         return ugly_nums[-1]
 
 
